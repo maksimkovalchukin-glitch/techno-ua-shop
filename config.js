@@ -1,6 +1,6 @@
 const CONFIG = {
   webhooks: {
-    order: 'https://n8n.automaticly.org/webhook/tech-order',
+    order: 'https://n8n.automaticly.org/webhook/shop-order',
     chat:     'https://n8n.automaticly.org/webhook/shop-chat',
     chatPoll: 'https://n8n.automaticly.org/webhook/shop-chat-reply',
   },
