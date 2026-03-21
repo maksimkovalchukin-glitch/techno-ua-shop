@@ -1,8 +1,8 @@
 const CONFIG = {
   webhooks: {
     order: 'https://n8n.automaticly.org/webhook/tech-order',
-    chat:     'https://n8n.automaticly.org/webhook/tech-chat',
-    chatPoll: 'https://n8n.automaticly.org/webhook/tech-chat-reply',
+    chat:     'https://n8n.automaticly.org/webhook/shop-chat',
+    chatPoll: 'https://n8n.automaticly.org/webhook/shop-chat-reply',
   },
   shop: {
     name: 'Техно.ua',
