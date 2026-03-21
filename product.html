@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1K509SRMGX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1K509SRMGX');
+  </script>
+  <title id="docTitle">Товар — Техно.ua</title>
+  <meta id="metaDesc" name="description" content="Будівельні матеріали з доставкою по Україні — Техно.ua">
+  <link id="canonical" rel="canonical" href="https://techno-ua.store/product.html">
+  <meta id="ogUrl" property="og:url" content="https://techno-ua.store/product.html">
+  <meta id="ogTitle" property="og:title" content="Товар — Техно.ua">
+  <meta id="ogDesc" property="og:description" content="Будівельні матеріали з доставкою по Україні">
+  <meta id="ogImage" property="og:image" content="">
+  <meta property="og:type" content="product">
+  <meta property="og:locale" content="uk_UA">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header__inner">
+      <a href="index.html" class="logo">
+        <div class="logo__mark">Т</div>
+        <div>
+          <span class="logo__text">Техно.ua</span>
+          <span class="logo__sub">будівельні матеріали</span>
+        </div>
+      </a>
+      <div class="header__search">
+        <input type="text" id="headerSearchInput" placeholder="Пошук товарів, брендів...">
+        <button id="headerSearchBtn">Знайти</button>
+      </div>
+      <nav class="header__nav">
+        <a href="index.html">Головна</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="delivery.html">Доставка</a>
+      </nav>
+      <div class="header__actions">
+        <button class="cart-btn" onclick="toggleCart()" title="Кошик">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          Кошик
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="product-layout" id="productLayout">
+
+    <!-- Loading State -->
+    <div style="grid-column:1/-1;padding:60px 0;text-align:center;color:var(--text-muted)">
+      <div class="skeleton" style="height:400px;border-radius:16px;margin-bottom:20px"></div>
+    </div>
+
+  </div>
+
+  <!-- Related products -->
+  <section class="section--sm" id="relatedSection" style="display:none">
+    <div class="section__head">
+      <div>
+        <h2 class="section-title">З цієї категорії</h2>
+      </div>
+      <a id="relatedLink" href="catalog.html" class="btn btn--secondary">Всі товари →</a>
+    </div>
+    <div class="products-grid" id="relatedGrid"></div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" style="margin-top:60px">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© 2026 Техно.ua</span>
+      <a href="index.html" style="color:rgba(255,255,255,.5)">← На головну</a>
+    </div>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/product.js"></script>
+<script src="js/chat.js"></script>
+</body>
+</html>

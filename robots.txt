@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /checkout.html
+Disallow: /data/
+
+Sitemap: https://budivlya.store/sitemap.xml

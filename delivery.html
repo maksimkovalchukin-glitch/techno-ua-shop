@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1K509SRMGX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1K509SRMGX');
+  </script>
+  <title>Доставка Новою Поштою — Техно.ua</title>
+  <meta name="description" content="Доставка будівельних матеріалів по Україні. Знайдіть найближче відділення Нової Пошти на інтерактивній карті.">
+  <link rel="canonical" href="https://techno-ua.store/delivery.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://techno-ua.store/delivery.html">
+  <meta property="og:title" content="Доставка по Україні — Техно.ua">
+  <meta property="og:description" content="Доставка Новою Поштою. Знайдіть найближче відділення на карті.">
+  <meta property="og:locale" content="uk_UA">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    .delivery-hero {
+      margin-top: var(--header-h);
+      background: linear-gradient(135deg, #0f1b2d 0%, #1a2e4a 100%);
+      padding: 40px 0 36px;
+    }
+    .delivery-hero h1 { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .delivery-hero p { color: rgba(255,255,255,.6); font-size: .95rem; margin-bottom: 24px; }
+
+    .carrier-tabs {
+      display: flex; gap: 10px; margin-bottom: 20px;
+    }
+    .carrier-tab {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      border: 2px solid rgba(255,255,255,.15);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.7);
+      font-weight: 600; font-size: .9rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .carrier-tab img { width: 24px; height: 24px; object-fit: contain; border-radius: 4px; }
+    .carrier-tab.active { border-color: var(--accent); background: rgba(232,93,38,.2); color: #fff; }
+    .carrier-tab:hover { border-color: rgba(255,255,255,.3); color: #fff; }
+
+    .search-row {
+      display: flex; gap: 10px; max-width: 620px;
+    }
+    .city-input-wrap { position: relative; flex: 1; }
+    .city-input {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: .95rem;
+      outline: none;
+      background: #fff;
+      color: var(--text);
+    }
+    .city-autocomplete {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      max-height: 220px;
+      overflow-y: auto;
+      display: none;
+    }
+    .city-autocomplete.open { display: block; }
+    .city-ac-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: .9rem;
+      color: var(--text);
+      transition: background var(--transition);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .city-ac-item:hover { background: var(--accent-light); color: var(--accent); }
+    .city-ac-item .region { font-size: .78rem; color: var(--text-muted); }
+
+    /* API Key Banner */
+    .api-banner {
+      background: rgba(255,200,0,.12);
+      border: 1.5px solid rgba(255,200,0,.3);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: .85rem;
+      color: #f0c040;
+      display: flex; align-items: center; gap: 10px;
+      max-width: 620px;
+    }
+    .api-banner a { color: #f0c040; text-decoration: underline; }
+    .api-banner.hidden { display: none; }
+
+    /* Layout */
+    .delivery-body {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      height: calc(100vh - var(--header-h) - 220px);
+      min-height: 500px;
+    }
+
+    /* Branch list */
+    .branch-list {
+      overflow-y: auto;
+      background: var(--card);
+      border-right: 1.5px solid var(--border);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .branch-list::-webkit-scrollbar { width: 4px; }
+    .branch-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .branch-list-header {
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0;
+      background: var(--card);
+      z-index: 10;
+    }
+    .branch-list-header h3 { font-size: .9rem; font-weight: 700; color: var(--text); }
+    .branch-list-header span { font-size: .8rem; color: var(--text-muted); }
+
+    .branch-type-filter {
+      display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;
+    }
+    .btype-btn {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 600;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .btype-btn.active { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+
+    .branch-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: background var(--transition);
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .branch-item:hover { background: var(--bg); }
+    .branch-item.active { background: var(--accent-light); border-left: 3px solid var(--accent); }
+    .branch-item__icon {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .branch-item__icon--np { background: #e8f0ff; }
+    .branch-item__icon--up { background: #fff3cc; }
+    .branch-item__info {}
+    .branch-item__num { font-weight: 700; font-size: .82rem; color: var(--accent); margin-bottom: 2px; }
+    .branch-item__addr { font-size: .85rem; color: var(--text); line-height: 1.4; margin-bottom: 4px; }
+    .branch-item__meta { font-size: .75rem; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; }
+    .branch-item__meta span { display: flex; align-items: center; gap: 3px; }
+
+    /* Map */
+    #deliveryMap {
+      width: 100%;
+      min-height: 500px;
+      z-index: 1;
+      position: relative;
+    }
+    .delivery-body {
+      align-items: stretch;
+    }
+
+    /* Popup */
+    .branch-popup { font-family: 'Inter', sans-serif; min-width: 220px; }
+    .branch-popup h4 { font-size: .9rem; font-weight: 700; margin-bottom: 6px; color: #1a202c; }
+    .branch-popup p { font-size: .82rem; color: #4a5568; margin-bottom: 3px; }
+    .branch-popup .popup-tag {
+      display: inline-block;
+      background: #e8f0ff; color: #2b6cb0;
+      padding: 2px 8px; border-radius: 10px;
+      font-size: .72rem; font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .branch-popup .popup-tag.up { background: #fff3cc; color: #b7791f; }
+    .branch-popup .order-here {
+      display: block; width: 100%;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 6px;
+      padding: 8px; font-weight: 600; font-size: .82rem;
+      cursor: pointer; margin-top: 8px; font-family: inherit;
+      text-align: center;
+    }
+
+    /* States */
+    .branch-empty {
+      text-align: center; padding: 48px 20px;
+      color: var(--text-muted);
+    }
+    .branch-empty .icon { font-size: 2.5rem; opacity: .3; margin-bottom: 10px; }
+    .branch-loading { text-align: center; padding: 48px 20px; color: var(--text-muted); }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .delivery-body { grid-template-columns: 1fr; height: auto; display: flex; flex-direction: column; }
+      #deliveryMap { height: 300px; min-height: 0; order: -1; flex-shrink: 0; }
+      .branch-list { height: 60vh; border-right: none; border-top: 1.5px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header__inner">
+      <a href="index.html" class="logo">
+        <div class="logo__mark">Т</div>
+        <div>
+          <span class="logo__text">Техно.ua</span>
+          <span class="logo__sub">будівельні матеріали</span>
+        </div>
+      </a>
+      <div class="header__search">
+        <input type="text" id="headerSearchInput" placeholder="Пошук товарів, брендів...">
+        <button id="headerSearchBtn">Знайти</button>
+      </div>
+      <nav class="header__nav">
+        <a href="index.html">Головна</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="delivery.html" class="active">Доставка</a>
+      </nav>
+      <div class="header__actions">
+        <button class="cart-btn" onclick="toggleCart()" title="Кошик">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          Кошик
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="delivery-hero">
+  <div class="container">
+    <h1>🚚 Відділення Нової Пошти</h1>
+    <p>Знайдіть найближче відділення Нової Пошти у вашому місті</p>
+
+    <!-- Search -->
+    <div class="search-row">
+      <div class="city-input-wrap">
+        <input type="text" class="city-input" id="cityInput" placeholder="Введіть місто..." autocomplete="off" oninput="DeliveryPage.onCityInput(this.value)">
+        <div class="city-autocomplete" id="cityAC"></div>
+      </div>
+      <button class="btn btn--primary" onclick="DeliveryPage.searchBranches()">Знайти</button>
+    </div>
+
+    <!-- API key warning -->
+    <div class="api-banner hidden" id="apiBanner">
+      ⚠️ Потрібен API ключ. <strong id="apiProvider">Нова Пошта</strong>:
+      отримати безкоштовно на <a href="https://developers.novaposhta.ua/" target="_blank" id="apiLink">developers.novaposhta.ua</a>
+      → вставити в <code style="background:rgba(255,255,255,.1);padding:2px 6px;border-radius:3px">config.js</code>
+    </div>
+  </div>
+</div>
+
+<!-- BODY: LIST + MAP -->
+<div class="delivery-body">
+
+  <!-- Branch list -->
+  <div class="branch-list" id="branchList">
+    <div class="branch-list-header">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 id="listTitle">Оберіть місто</h3>
+        <span id="listCount"></span>
+      </div>
+      <div class="branch-type-filter" id="typeFilter" style="display:none">
+        <button class="btype-btn active" data-type="all" onclick="DeliveryPage.filterType('all')">Всі</button>
+        <button class="btype-btn" data-type="office" onclick="DeliveryPage.filterType('office')">Відділення</button>
+        <button class="btype-btn" data-type="postamat" onclick="DeliveryPage.filterType('postamat')">Поштомат</button>
+      </div>
+    </div>
+    <div id="branchItems">
+      <div class="branch-empty">
+        <div class="icon">🗺️</div>
+        <div>Введіть назву міста для пошуку відділень</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div id="deliveryMap"></div>
+</div>
+
+<script src="config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/delivery.js"></script>
+</body>
+</html>

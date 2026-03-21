@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1K509SRMGX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1K509SRMGX');
+  </script>
+  <title>Оформлення замовлення — Техно.ua</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: var(--bg); }
+
+    .checkout-wrap {
+      margin-top: var(--header-h);
+      padding: 40px 0 80px;
+      min-height: calc(100vh - var(--header-h));
+    }
+
+    /* Steps */
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 36px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+    .step__num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; font-weight: 700;
+      border: 2px solid var(--border);
+      background: var(--card);
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: all .3s;
+    }
+    .step__label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: color .3s;
+      white-space: nowrap;
+    }
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin: 0 8px;
+      transition: background .3s;
+    }
+    .step.active .step__num { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .step.active .step__label { color: var(--accent); }
+    .step.done .step__num { border-color: var(--success); background: var(--success); color: #fff; }
+    .step.done .step__label { color: var(--success); }
+    .step-line.done { background: var(--success); }
+
+    /* Layout */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* Form card */
+    .checkout-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+    }
+    .checkout-card__head {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .checkout-card__head h3 {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .step-badge {
+      width: 26px; height: 26px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .checkout-card__body { padding: 24px; }
+
+    /* Delivery inline */
+    .carrier-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .carrier-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      font-weight: 600;
+      font-size: .88rem;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .carrier-btn.active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .city-wrap { position: relative; margin-bottom: 12px; }
+    .city-wrap input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 11px 14px;
+      font-size: .9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .city-wrap input:focus { border-color: var(--accent); }
+    .city-ac {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+    }
+    .city-ac.open { display: block; }
+    .city-ac-item {
+      padding: 9px 14px;
+      cursor: pointer;
+      font-size: .88rem;
+      transition: background var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .city-ac-item:hover { background: var(--accent-light); color: var(--accent); }
+    .city-ac-item .region { font-size: .75rem; color: var(--text-muted); }
+
+    .branch-search-row {
+      display: flex;
+      gap: 8px;
+    }
+    .branch-search-row input {
+      flex: 1;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      font-size: .85rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .branch-search-row input:focus { border-color: var(--accent); }
+
+    .branch-list-inline {
+      max-height: 280px;
+      overflow-y: auto;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-top: 10px;
+      scrollbar-width: thin;
+    }
+    .branch-list-inline::-webkit-scrollbar { width: 4px; }
+    .branch-list-inline::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .branch-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 14px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border-light);
+      transition: background var(--transition);
+    }
+    .branch-row:last-child { border-bottom: none; }
+    .branch-row:hover { background: var(--bg); }
+    .branch-row.selected { background: var(--accent-light); border-left: 3px solid var(--accent); }
+    .branch-row__num { font-weight: 700; font-size: .8rem; color: var(--accent); white-space: nowrap; }
+    .branch-row__addr { font-size: .83rem; color: var(--text); line-height: 1.4; }
+    .branch-row__hours { font-size: .75rem; color: var(--text-muted); margin-top: 2px; }
+    .branch-row__check {
+      margin-left: auto;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--transition);
+    }
+    .branch-row.selected .branch-row__check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-size: .7rem;
+    }
+
+    .selected-branch-box {
+      background: var(--success-bg);
+      border: 1.5px solid #c6f6d5;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-top: 12px;
+      display: none;
+    }
+    .selected-branch-box.show { display: block; }
+    .selected-branch-box__label { font-size: .75rem; font-weight: 700; color: var(--success); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; }
+    .selected-branch-box__val { font-size: .9rem; font-weight: 600; color: var(--text); }
+
+    /* Confirmation options */
+    .confirm-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-bottom: 10px;
+      background: var(--bg);
+    }
+    .confirm-option:hover { border-color: #c5cfe0; }
+    .confirm-option.selected { border-color: var(--accent); background: var(--accent-light); }
+    .confirm-option input[type="radio"] { margin-top: 3px; accent-color: var(--accent); flex-shrink: 0; }
+    .confirm-option__title { font-weight: 600; font-size: .9rem; }
+    .confirm-option__sub { font-size: .8rem; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
+
+    /* Order summary (right col) */
+    .order-summary {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--border);
+      padding: 20px;
+      position: sticky;
+      top: calc(var(--header-h) + 20px);
+    }
+    .order-summary h4 { font-size: .9rem; font-weight: 700; margin-bottom: 16px; }
+    .summary-product {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .summary-product__img {
+      width: 72px; height: 72px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .summary-product__img img { width: 100%; height: 100%; object-fit: contain; }
+    .summary-product__name { font-size: .85rem; font-weight: 600; line-height: 1.4; color: var(--text); margin-bottom: 4px; }
+    .summary-product__vendor { font-size: .75rem; color: var(--text-muted); }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: .88rem;
+      margin-bottom: 8px;
+    }
+    .summary-row span:first-child { color: var(--text-muted); }
+    .summary-row.total { font-weight: 800; font-size: 1.1rem; padding-top: 8px; border-top: 1px solid var(--border); margin-top: 8px; }
+    .summary-row.total span:last-child { color: var(--accent); }
+
+    /* Success */
+    .checkout-success {
+      text-align: center;
+      padding: 60px 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      display: none;
+    }
+    .checkout-success.show { display: block; }
+    .success-icon {
+      width: 90px; height: 90px;
+      background: var(--success-bg);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+      margin: 0 auto 24px;
+    }
+    .checkout-success h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; }
+    .checkout-success p { color: var(--text-muted); line-height: 1.7; }
+    .order-num {
+      display: inline-block;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 20px;
+      font-size: .9rem;
+      font-weight: 700;
+      margin: 16px 0;
+      letter-spacing: .5px;
+    }
+    .no-call-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--success-bg);
+      border: 1px solid #c6f6d5;
+      color: var(--success);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    .branch-spinner { text-align: center; padding: 20px; color: var(--text-muted); font-size: .85rem; }
+    .branch-spinner::before { content: '⏳ '; }
+
+    @media (max-width: 768px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; order: -1; }
+      .steps { overflow-x: auto; }
+      .step__label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header__inner">
+      <a href="index.html" class="logo">
+        <div class="logo__mark">Т</div>
+        <div>
+          <span class="logo__text">Техно.ua</span>
+          <span class="logo__sub">електроніка та аксесуари</span>
+        </div>
+      </a>
+      <nav class="header__nav">
+        <a href="index.html">Головна</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="delivery.html">Доставка</a>
+      </nav>
+      <div class="header__actions">
+        <button class="cart-btn" onclick="toggleCart()" title="Кошик">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          Кошик
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="checkout-wrap">
+  <div class="container container--narrow">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" style="margin-bottom:24px">
+      <a href="index.html">Головна</a>
+      <span class="breadcrumb__sep">›</span>
+      <a href="catalog.html">Каталог</a>
+      <span class="breadcrumb__sep">›</span>
+      <span class="breadcrumb__current">Оформлення замовлення</span>
+    </nav>
+
+    <!-- Steps -->
+    <div class="steps">
+      <div class="step active" id="step1-ind">
+        <div class="step__num">1</div>
+        <div class="step__label">Контакти</div>
+      </div>
+      <div class="step-line" id="line1"></div>
+      <div class="step" id="step2-ind">
+        <div class="step__num">2</div>
+        <div class="step__label">Доставка</div>
+      </div>
+      <div class="step-line" id="line2"></div>
+      <div class="step" id="step3-ind">
+        <div class="step__num">3</div>
+        <div class="step__label">Підтвердження</div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div id="checkoutMain">
+      <div class="checkout-layout">
+
+        <!-- LEFT: FORM -->
+        <div>
+
+          <!-- STEP 1: Contacts -->
+          <div class="checkout-card" id="stepContact">
+            <div class="checkout-card__head">
+              <div class="step-badge">1</div>
+              <h3>Ваші контактні дані</h3>
+            </div>
+            <div class="checkout-card__body">
+              <div class="form-group">
+                <label>Ім'я та прізвище *</label>
+                <input type="text" id="inpName" placeholder="Іван Петренко" required>
+              </div>
+              <div class="form-group">
+                <label>Номер телефону *</label>
+                <input type="tel" id="inpPhone" placeholder="+380 XX XXX XX XX" required>
+              </div>
+              <div class="form-group">
+                <label>Email <span style="color:var(--text-muted);font-weight:400">(необов'язково)</span></label>
+                <input type="email" id="inpEmail" placeholder="email@example.com">
+              </div>
+              <button class="btn btn--primary" onclick="Checkout.nextStep(1)">Далі →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Delivery -->
+          <div class="checkout-card" id="stepDelivery" style="margin-top:16px;opacity:.5;pointer-events:none">
+            <div class="checkout-card__head">
+              <div class="step-badge" style="background:var(--text-muted)">2</div>
+              <h3>Спосіб доставки</h3>
+            </div>
+            <div class="checkout-card__body">
+              <div style="margin-bottom:16px;display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;color:var(--accent)">
+                📦 Нова Пошта
+              </div>
+
+              <!-- City -->
+              <div class="city-wrap">
+                <input type="text" id="coCity" placeholder="Введіть місто..." autocomplete="off"
+                       oninput="Checkout.onCityInput(this.value)">
+                <div class="city-ac" id="coCityAC"></div>
+              </div>
+
+              <!-- Branch search -->
+              <div class="branch-search-row" id="branchSearchRow" style="display:none">
+                <input type="text" id="coBranchFilter" placeholder="Фільтр відділень..." oninput="Checkout.filterBranches(this.value)">
+              </div>
+
+              <!-- Branches list -->
+              <div id="coBranchList"></div>
+
+              <!-- Selected -->
+              <div class="selected-branch-box" id="selectedBranchBox">
+                <div class="selected-branch-box__label">✓ Обране відділення</div>
+                <div class="selected-branch-box__val" id="selectedBranchVal"></div>
+              </div>
+
+              <button class="btn btn--primary" id="deliveryNextBtn"
+                      onclick="Checkout.nextStep(2)"
+                      style="margin-top:16px;display:none">
+                Далі →
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Confirmation -->
+          <div class="checkout-card" id="stepConfirm" style="margin-top:16px;opacity:.5;pointer-events:none">
+            <div class="checkout-card__head">
+              <div class="step-badge" style="background:var(--text-muted)">3</div>
+              <h3>Підтвердження</h3>
+            </div>
+            <div class="checkout-card__body">
+
+              <div style="margin-bottom:20px">
+                <label style="font-size:.85rem;font-weight:700;color:var(--text-2);display:block;margin-bottom:10px">Спосіб оплати</label>
+                <label class="confirm-option selected" id="optPayCOD">
+                  <input type="radio" name="payment" value="cod" checked>
+                  <div>
+                    <div class="confirm-option__title">💵 Накладений платіж</div>
+                    <div class="confirm-option__sub">Оплата при отриманні на відділенні пошти</div>
+                  </div>
+                </label>
+              </div>
+
+              <div class="form-group">
+                <label>Коментар до замовлення <span style="color:var(--text-muted);font-weight:400">(необов'язково)</span></label>
+                <textarea id="inpComment" placeholder="Уточнення по товару, кількість, колір, розмір..."></textarea>
+              </div>
+
+              <div style="margin-bottom:20px">
+                <label class="confirm-option selected" id="optNoCall" onclick="Checkout.setCallPref('nocall')">
+                  <input type="radio" name="callPref" value="nocall" checked>
+                  <div>
+                    <div class="confirm-option__title">✅ Не передзвонюйте — оформити автоматично</div>
+                    <div class="confirm-option__sub">Замовлення буде оформлено одразу. Менеджер зв'яжеться при потребі.</div>
+                  </div>
+                </label>
+                <label class="confirm-option" id="optCallYes" onclick="Checkout.setCallPref('call')">
+                  <input type="radio" name="callPref" value="call">
+                  <div>
+                    <div class="confirm-option__title">📞 Передзвоніть для підтвердження</div>
+                    <div class="confirm-option__sub">Менеджер зателефонує протягом 30 хвилин у робочий час</div>
+                  </div>
+                </label>
+              </div>
+
+              <button class="btn btn--primary btn--full btn--lg" onclick="Checkout.submit()" id="submitBtn">
+                ⚡ Оформити замовлення
+              </button>
+              <p style="text-align:center;font-size:.78rem;color:var(--text-muted);margin-top:10px">
+                Натискаючи кнопку, ви погоджуєтесь з умовами використання
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Summary -->
+        <div>
+          <div class="order-summary" id="orderSummary">
+            <h4>Ваше замовлення</h4>
+            <div id="summaryItems">
+              <div style="color:var(--text-muted);font-size:.85rem;text-align:center;padding:20px">Завантаження...</div>
+            </div>
+            <div id="summaryTotals" style="display:none">
+              <div class="summary-row">
+                <span>Товари</span>
+                <span id="sumSubtotal"></span>
+              </div>
+              <div class="summary-row">
+                <span>Доставка</span>
+                <span style="color:var(--success)">За тарифами НП</span>
+              </div>
+              <div class="summary-row" id="summaryPaymentRow" style="display:none">
+                <span>Оплата</span>
+                <span id="summaryPaymentVal"></span>
+              </div>
+              <div class="summary-row total">
+                <span>Разом</span>
+                <span id="sumTotal"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="checkout-success" id="checkoutSuccess">
+      <div class="success-icon" id="successIcon">🎉</div>
+      <h2 id="successTitle">Замовлення оформлено!</h2>
+      <div class="order-num" id="successOrderNum"></div>
+      <p id="successMsg"></p>
+      <div class="no-call-badge" id="noCallBadge" style="display:none">
+        ✓ Передзвонювати не будемо
+      </div>
+      <div id="paymentSuccessBadge" style="display:none;margin-top:12px">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:#ebf8ff;border:1px solid #bee3f8;color:#2b6cb0;padding:6px 14px;border-radius:20px;font-size:.82rem;font-weight:600">
+          ✓ Оплату підтверджено
+        </span>
+      </div>
+      <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="catalog.html" class="btn btn--secondary">← До каталогу</a>
+        <a href="index.html" class="btn btn--primary">На головну</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+<script src="js/chat.js"></script>
+<script>
+// Handle redirect back from Monobank payment page
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('paid') === '1') {
+    document.getElementById('checkoutMain').style.display = 'none';
+    const s = document.getElementById('checkoutSuccess');
+    s.classList.add('show');
+    const orderNum = params.get('order') || '';
+    document.getElementById('successOrderNum').textContent = orderNum ? '\u2116 ' + orderNum : '';
+    document.getElementById('successMsg').textContent = '\u041e\u043f\u043b\u0430\u0442\u0430 \u043f\u0440\u043e\u0439\u0448\u043b\u0430 \u0443\u0441\u043f\u0456\u0448\u043d\u043e. \u0417\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f \u0431\u0443\u0434\u0435 \u0432\u0456\u0434\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e \u043f\u0456\u0441\u043b\u044f \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f \u043e\u043f\u043b\u0430\u0442\u0438.';
+    document.getElementById('paymentSuccessBadge').style.display = '';
+  }
+})();
+</script>
+</body>
+</html>

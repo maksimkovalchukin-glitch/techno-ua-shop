@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Техно.ua — Гаджети, годинники та електроніка з доставкою по Україні</title>
+  <meta name="description" content="Інтернет-магазин електроніки та аксесуарів. Понад 7800 товарів в наявності: смарт-годинники, сумки, камери, побутова техніка. Доставка Новою Поштою по всій Україні.">
+  <link rel="canonical" href="https://techno-ua.store/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://techno-ua.store/">
+  <meta property="og:title" content="Техно.ua — Гаджети та електроніка з доставкою">
+  <meta property="og:description" content="Понад 7800 товарів в наявності: смарт-годинники, фітнес-браслети, сумки, камери, побутова техніка. Доставка по Україні.">
+  <meta property="og:locale" content="uk_UA">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"OnlineStore","name":"Техно.ua","description":"Інтернет-магазин електроніки та аксесуарів з доставкою по Україні","url":"https://techno-ua.store","areaServed":"UA","currenciesAccepted":"UAH"}
+  </script>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="container">
+    <div class="header__inner">
+      <a href="index.html" class="logo">
+        <div class="logo__mark">Т</div>
+        <div>
+          <span class="logo__text">Техно.ua</span>
+          <span class="logo__sub">гаджети та електроніка</span>
+        </div>
+      </a>
+      <div class="header__search">
+        <input type="text" id="headerSearchInput" placeholder="Пошук товарів, брендів...">
+        <button id="headerSearchBtn">Знайти</button>
+      </div>
+      <nav class="header__nav">
+        <a href="index.html" class="active">Головна</a>
+        <a href="catalog.html">Каталог</a>
+        <a href="delivery.html">Доставка</a>
+      </nav>
+      <div class="header__actions">
+        <button class="cart-btn" onclick="toggleCart()" title="Кошик">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          Кошик
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <div class="hero__tag">
+        <span>⚡</span> Більше 7800 товарів в наявності
+      </div>
+      <h1>Гаджети та електроніка<br><span>з доставкою по Україні</span></h1>
+      <p class="hero__sub">Смарт-годинники, фітнес-браслети, сумки, камери відеоспостереження, побутова техніка та аксесуари</p>
+      <div class="hero__search">
+        <input type="text" id="heroSearch" placeholder="Наприклад: смарт-годинник, рюкзак, навушники...">
+        <button onclick="heroSearch()">Знайти</button>
+      </div>
+      <div class="hero__stats" id="heroStats">
+        <div class="hero-stat"><span class="hero-stat__num">9 755</span><span class="hero-stat__label">Товарів</span></div>
+        <div class="hero-stat"><span class="hero-stat__num">7 874</span><span class="hero-stat__label">В наявності</span></div>
+        <div class="hero-stat"><span class="hero-stat__num">77</span><span class="hero-stat__label">Категорії</span></div>
+        <div class="hero-stat"><span class="hero-stat__num">7</span><span class="hero-stat__label">Напрямки</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="features-strip">
+  <div class="container">
+    <div class="features-strip__grid">
+      <div class="feature-item">
+        <div class="feature-item__icon">🚚</div>
+        <div>
+          <div class="feature-item__title">Доставка по Україні</div>
+          <div class="feature-item__sub">Нова пошта, Укрпошта</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item__icon">💳</div>
+        <div>
+          <div class="feature-item__title">Зручна оплата</div>
+          <div class="feature-item__sub">Накладений платіж</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item__icon">✅</div>
+        <div>
+          <div class="feature-item__title">Тільки в наявності</div>
+          <div class="feature-item__sub">Реальні залишки</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-item__icon">💬</div>
+        <div>
+          <div class="feature-item__title">Консультація онлайн</div>
+          <div class="feature-item__sub">Пн–Пт 9:00–18:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section section--white">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <h2 class="section-title">Категорії товарів</h2>
+        <p class="section-subtitle" style="margin-bottom:0">Оберіть потрібний напрямок</p>
+      </div>
+      <a href="catalog.html" class="btn btn--secondary">Всі товари →</a>
+    </div>
+    <div class="category-grid" id="categoryGrid">
+      <div style="height:220px;border-radius:16px" class="skeleton"></div>
+      <div style="height:220px;border-radius:16px" class="skeleton"></div>
+      <div style="height:220px;border-radius:16px" class="skeleton"></div>
+      <div style="height:220px;border-radius:16px" class="skeleton"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <div>
+        <h2 class="section-title">Популярні товари</h2>
+        <p class="section-subtitle" style="margin-bottom:0">Актуальні пропозиції з різних категорій</p>
+      </div>
+      <a href="catalog.html" class="btn btn--secondary">Всі товари →</a>
+    </div>
+    <div class="products-grid" id="featuredGrid">
+      <div style="height:320px;border-radius:12px" class="skeleton"></div>
+      <div style="height:320px;border-radius:12px" class="skeleton"></div>
+      <div style="height:320px;border-radius:12px" class="skeleton"></div>
+      <div style="height:320px;border-radius:12px" class="skeleton"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="logo" style="margin-bottom:14px">
+          <div class="logo__mark">Т</div>
+          <span class="logo__text">Техно.ua</span>
+        </a>
+        <p>Інтернет-магазин електроніки та аксесуарів. Якісні товари від перевірених постачальників з доставкою по всій Україні.</p>
+      </div>
+      <div>
+        <h4>Каталог</h4>
+        <ul id="footerCats"></ul>
+      </div>
+      <div>
+        <h4>Інформація</h4>
+        <ul>
+          <li><a href="delivery.html">Доставка та оплата</a></li>
+          <li><a href="#">Гарантія та повернення</a></li>
+          <li><a href="#">Контакти</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Контакти</h4>
+        <ul class="footer__contact">
+          <li>📞 <a href="tel:+380500000000">+380 50 000 00 00</a></li>
+          <li>✈️ <a href="https://t.me/techno_store_ua" target="_blank" rel="noopener">@techno_store_ua</a></li>
+          <li>🕐 Пн–Пт 9:00–18:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Техно.ua. Всі права захищені.</span>
+      <span>Powered by Dropshipping.ua</span>
+    </div>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/chat.js"></script>
+<script>
+function heroSearch() {
+  const q = document.getElementById('heroSearch').value.trim();
+  if (q) window.location.href = `catalog.html?search=${encodeURIComponent(q)}`;
+}
+document.getElementById('heroSearch').addEventListener('keydown', e => {
+  if (e.key === 'Enter') heroSearch();
+});
+
+const GROUP_EMOJI = {
+  godynnyky: '⌚', sumky: '👜', valisy: '🧳',
+  elektronika: '🎧', bezpeka: '📷', dim: '🏠', foto: '📸',
+};
+
+async function initHome() {
+  try {
+    const catalog = await DataLoader.catalog();
+
+    document.getElementById('heroStats').innerHTML = `
+      <div class="hero-stat"><span class="hero-stat__num">${catalog.stats.total.toLocaleString('uk')}</span><span class="hero-stat__label">Товарів</span></div>
+      <div class="hero-stat"><span class="hero-stat__num">${catalog.stats.available.toLocaleString('uk')}</span><span class="hero-stat__label">В наявності</span></div>
+      <div class="hero-stat"><span class="hero-stat__num">${catalog.stats.categories}</span><span class="hero-stat__label">Категорії</span></div>
+      <div class="hero-stat"><span class="hero-stat__num">${catalog.stats.groups}</span><span class="hero-stat__label">Напрямки</span></div>`;
+
+    document.getElementById('categoryGrid').innerHTML = catalog.groups.map(g => `
+      <a href="catalog.html?group=${g.id}" class="category-card">
+        <div class="category-card__img${g.cover ? '' : ' category-card__img--placeholder'}">
+          ${g.cover
+            ? `<img src="${g.cover}" alt="${escHtml(g.name)}" loading="lazy">`
+            : `<span>${GROUP_EMOJI[g.id] || '📦'}</span>`}
+        </div>
+        <div class="category-card__body">
+          <div>
+            <div class="category-card__name">${escHtml(g.name)}</div>
+            <div class="category-card__count">${g.total.toLocaleString('uk')} товарів</div>
+          </div>
+          <div class="category-card__arrow">→</div>
+        </div>
+      </a>`).join('');
+
+    document.getElementById('footerCats').innerHTML = catalog.groups.map(g =>
+      `<li><a href="catalog.html?group=${g.id}">${escHtml(g.name)}</a></li>`).join('');
+
+    const featured = await DataLoader.featured();
+    document.getElementById('featuredGrid').innerHTML = featured.slice(0, 8).map(renderProductCard).join('');
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+initHome();
+</script>
+</body>
+</html>

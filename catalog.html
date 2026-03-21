@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1K509SRMGX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1K509SRMGX');
+  </script>
+  <title>Каталог товарів — Техно.ua</title>
+  <meta name="description" content="Каталог будівельних матеріалів: сантехніка, підлогові покриття, електрика, фарби, насоси, зварювальне обладнання. Понад 4000 товарів в наявності.">
+  <link rel="canonical" href="https://techno-ua.store/catalog.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://techno-ua.store/catalog.html">
+  <meta property="og:title" content="Каталог будівельних матеріалів — Техно.ua">
+  <meta property="og:description" content="Понад 4000 товарів для будівництва та ремонту з доставкою по Україні.">
+  <meta property="og:locale" content="uk_UA">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="container">
+    <div class="header__inner">
+      <a href="index.html" class="logo">
+        <div class="logo__mark">Т</div>
+        <div>
+          <span class="logo__text">Техно.ua</span>
+          <span class="logo__sub">гаджети та електроніка</span>
+        </div>
+      </a>
+      <div class="header__search">
+        <input type="text" id="headerSearchInput" placeholder="Пошук товарів, брендів...">
+        <button id="headerSearchBtn">Знайти</button>
+      </div>
+      <nav class="header__nav">
+        <a href="index.html">Головна</a>
+        <a href="catalog.html" class="active">Каталог</a>
+        <a href="delivery.html">Доставка</a>
+      </nav>
+      <div class="header__actions">
+        <button class="cart-btn" onclick="toggleCart()" title="Кошик">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          Кошик
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<div class="container">
+  <div class="catalog-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="catalog-sidebar" id="catalogSidebar">
+
+      <!-- Categories -->
+      <div class="sidebar-section">
+        <div class="sidebar-section__title">Категорії</div>
+        <div id="sidebarCats">
+          <div class="skeleton skeleton-line" style="height:28px;margin:4px 0"></div>
+          <div class="skeleton skeleton-line" style="height:28px;margin:4px 0"></div>
+          <div class="skeleton skeleton-line" style="height:28px;margin:4px 0"></div>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="sidebar-section">
+        <div class="sidebar-section__title">Наявність</div>
+        <div class="filter-toggle" onclick="CatalogPage.toggleAvailable()">
+          <label>Тільки в наявності</label>
+          <div class="toggle-switch" id="availToggle"></div>
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="sidebar-section">
+        <div class="sidebar-section__title">Ціна (грн)</div>
+        <div class="filter-range">
+          <input type="number" id="priceMin" placeholder="Від" min="0">
+          <span>—</span>
+          <input type="number" id="priceMax" placeholder="До" min="0">
+        </div>
+        <button class="btn btn--secondary btn--sm btn--full" style="margin-top:10px" onclick="CatalogPage.applyFilters()">Застосувати</button>
+      </div>
+
+      <!-- Vendors -->
+      <div class="sidebar-section" id="vendorSection">
+        <div class="sidebar-section__title">Виробник</div>
+        <div class="vendor-list" id="vendorList"></div>
+      </div>
+
+      <div style="padding:0 16px">
+        <button class="btn btn--ghost" style="width:100%;background:var(--bg);color:var(--text-muted);border-color:var(--border)" onclick="CatalogPage.resetFilters()">Скинути фільтри</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="catalog-main">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" id="breadcrumb">
+        <a href="index.html">Головна</a>
+        <span class="breadcrumb__sep">›</span>
+        <span class="breadcrumb__current" id="breadcrumbCurrent">Каталог</span>
+      </nav>
+
+      <!-- Page Title -->
+      <div style="margin-bottom:20px">
+        <h1 style="font-size:1.5rem;font-weight:700;color:var(--text)" id="pageTitle">Всі товари</h1>
+      </div>
+
+      <!-- Top bar -->
+      <div class="catalog-topbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn btn--secondary btn--sm catalog-filter-btn" onclick="toggleSidebar()">☰ Категорії</button>
+          <div class="catalog-topbar__info" id="countInfo">Завантаження...</div>
+        </div>
+        <select class="sort-select" id="sortSelect" onchange="CatalogPage.applyFilters()">
+          <option value="default">За замовчуванням</option>
+          <option value="price_asc">Ціна: від дешевих</option>
+          <option value="price_desc">Ціна: від дорогих</option>
+          <option value="name_asc">Назва А-Я</option>
+        </select>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Skeleton -->
+        <div style="height:300px;border-radius:12px" class="skeleton"></div>
+        <div style="height:300px;border-radius:12px" class="skeleton"></div>
+        <div style="height:300px;border-radius:12px" class="skeleton"></div>
+        <div style="height:300px;border-radius:12px" class="skeleton"></div>
+        <div style="height:300px;border-radius:12px" class="skeleton"></div>
+        <div style="height:300px;border-radius:12px" class="skeleton"></div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </main>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" style="margin-top:60px">
+  <div class="container">
+    <div class="footer__bottom">
+      <span>© 2026 Техно.ua</span>
+      <a href="index.html" style="color:rgba(255,255,255,.5)">← На головну</a>
+    </div>
+  </div>
+</footer>
+
+<script src="config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/chat.js"></script>
+</body>
+</html>
