@@ -3,8 +3,8 @@
    ============================================= */
 
 const GROUP_ICONS = {
-  santekhnika: '🚿', nasosy: '⚙️', zahyst: '🦺',
-  farby: '🎨', pidlogovi: '🏠', elektryka: '⚡', zvarka: '🔧',
+  godynnyky: '⌚', sumky: '👜', valisy: '🧳',
+  elektronika: '🎧', bezpeka: '📷', dim: '🏠', foto: '📸',
 };
 
 const CatalogPage = {
